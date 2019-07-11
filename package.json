@@ -1,0 +1,21 @@
+{
+  "name": "function-structure-match",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "author": "zckevin",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "test": "babel src --out-dir dist; node dist/test.js;"
+  },
+  "dependencies": {
+    "deep-diff": "^1.0.2",
+    "shift-parser": "^7.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "assert": "^2.0.0"
+  }
+}
