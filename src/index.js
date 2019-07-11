@@ -16,7 +16,7 @@ export function Match(base, target) {
 
   let diff = DeepDiff(parse(base), parse(target), {
     normalize: (path, key, lhs, rhs) => {
-      if (key === "name" && typeof lhs == "string" && typeof rhs == "string") {
+      if (key === "name") {
         return [lhs, lhs];
       }
     }
@@ -29,12 +29,14 @@ export function MatchDebug(base, target) {
     return false;
   }
 
-  let diff = DeepDiff(parse(base), parse(target), {
+  let treeBase = parse(base),
+    treeTarget = parse(target);
+  let diff = DeepDiff(treeBase, treeTarget, {
     normalize: (path, key, lhs, rhs) => {
-      if (key === "name" && typeof lhs == "string" && typeof rhs == "string") {
+      if (key === "name") {
         return [lhs, lhs];
       }
     }
   });
-  return diff;
+  return { diff, treeBase, treeTarget };
 }
