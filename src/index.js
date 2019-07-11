@@ -1,6 +1,7 @@
 import { parseScript } from "shift-parser";
 import { isUserDefinedFunction } from "./utils";
 import { DeepDiff } from "deep-diff";
+import _ from "lodash";
 
 function parse(fn) {
   // in case of anonymous functions
@@ -9,22 +10,7 @@ function parse(fn) {
   return tree;
 }
 
-export function Match(base, target) {
-  if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
-    return false;
-  }
-
-  let diff = DeepDiff(parse(base), parse(target), {
-    normalize: (path, key, lhs, rhs) => {
-      if (key === "name") {
-        return [lhs, lhs];
-      }
-    }
-  });
-  return diff === undefined;
-}
-
-export function MatchDebug(base, target) {
+export function Match(base, target, debug = false) {
   if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
     return false;
   }
@@ -33,10 +19,21 @@ export function MatchDebug(base, target) {
     treeTarget = parse(target);
   let diff = DeepDiff(treeBase, treeTarget, {
     normalize: (path, key, lhs, rhs) => {
-      if (key === "name") {
-        return [lhs, lhs];
+      if (key == "name") {
+        return [1, 1];
+      } else if (key == "value") {
+        const typ = _.get(treeBase, path).type;
+        // `BooleanLiteral`, `NumericLiteral`, `StringLiteral`...
+        if (typ.startsWith("Literal")) {
+          return [1, 1];
+        } else {
+          return [lhs, rhs];
+        }
       }
     }
   });
-  return { diff, treeBase, treeTarget };
+  if (debug) {
+    console.log(treeBase, treeTarget, diff);
+  }
+  return diff === undefined;
 }
