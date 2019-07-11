@@ -23,3 +23,18 @@ export function Match(base, target) {
   });
   return diff === undefined;
 }
+
+export function MatchDebug(base, target) {
+  if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
+    return false;
+  }
+
+  let diff = DeepDiff(parse(base), parse(target), {
+    normalize: (path, key, lhs, rhs) => {
+      if (key === "name" && typeof lhs == "string" && typeof rhs == "string") {
+        return [lhs, lhs];
+      }
+    }
+  });
+  return diff;
+}

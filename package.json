@@ -1,9 +1,10 @@
 {
   "name": "function-structure-match",
-  "version": "0.0.1",
-  "main": "src/index.js",
+  "version": "0.0.4",
+  "main": "dist/index.js",
   "author": "zckevin",
   "scripts": {
+    "prepublish": "babel src --out-dir dist",
     "build": "babel src --out-dir dist",
     "test": "babel src --out-dir dist; node dist/test.js;"
   },
