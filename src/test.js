@@ -54,3 +54,19 @@ let literal_digit_d = function() {
 assert.strictEqual(Match(literal_str_a, literal_str_b), true);
 assert.strictEqual(Match(literal_digit_a, literal_digit_b), true);
 assert.strictEqual(Match(literal_digit_c, literal_digit_d), true);
+
+let this_a = function() {
+  this._$rD();
+};
+
+let this_b = function() {
+  this._$bD();
+};
+
+let this_c = {
+  fn: function() {
+    this.a();
+  }
+};
+assert.strictEqual(Match(this_a, this_b), true);
+assert.strictEqual(Match(this_a, this_c.fn), true);

@@ -19,7 +19,7 @@ export function Match(base, target, debug = false) {
     treeTarget = parse(target);
   let diff = DeepDiff(treeBase, treeTarget, {
     normalize: (path, key, lhs, rhs) => {
-      if (key == "name") {
+      if (key == "name" || key == "property") {
         return [1, 1];
       } else if (key == "value") {
         const typ = _.get(treeBase, path).type;
