@@ -70,3 +70,13 @@ let this_c = {
 };
 assert.strictEqual(Match(this_a, this_b), true);
 assert.strictEqual(Match(this_a, this_c.fn), true);
+
+{
+  function with_regex_a(_$uX) {
+    return _$ni.call(_$uX[_$tp()](), /{\s*return\s*([A-Za-z0-9$_]+);?\s*}/)[1];
+  }
+  let with_regex_b = function(arg) {
+    return a.call(b[c()](), /abcdeffffffffffffffffffffffffff/)[0];
+  };
+  assert.strictEqual(Match(with_regex_a, with_regex_b), true);
+}
