@@ -15,6 +15,15 @@ export function Match(base, target, debug = false) {
     return false;
   }
 
+  {
+    let lenBase = base.toString().length;
+    let lenTarget = target.toString().length;
+    const threshold = 30;
+    if (Math.abs(lenBase - lenTarget) > threshold) {
+      return false;
+    }
+  }
+
   let treeBase = parse(base),
     treeTarget = parse(target);
   let diff = DeepDiff(treeBase, treeTarget, {
