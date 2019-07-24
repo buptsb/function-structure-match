@@ -16,8 +16,8 @@ export function Match(base, target, debug = false) {
   }
 
   {
-    let lenBase = base.toString().length;
-    let lenTarget = target.toString().length;
+    let lenBase = base.toString().replace(/  /g, "").length;
+    let lenTarget = target.toString().replace(/  /g, "").length;
     const threshold = 30;
     if (Math.abs(lenBase - lenTarget) > threshold) {
       return false;
