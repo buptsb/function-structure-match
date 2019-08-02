@@ -4,6 +4,7 @@ import _ from "lodash";
 import hash from "@emotion/hash";
 
 const IGNORE_LIST = ["name", "pattern", "property", "value"];
+const HASH_KEY = "_HASH_";
 
 function iter(o) {
   return _.reduce(
@@ -27,13 +28,18 @@ function iter(o) {
   );
 }
 
-function getNormalizedTree(func) {
+export function GetNormalizedTree(func) {
   let tree = Parse(func);
-  let treeString = JSON.stringify(iter(tree));
-  return treeString;
+  return iter(tree);
 }
 
 export function FunctionStructureHash(func) {
-  let treeString = getNormalizedTree(func);
-  return hash(treeString);
+  let hashVal = _.get(func, HASH_KEY);
+  if (hashVal) {
+    return hashVal;
+  }
+  let treeString = JSON.stringify(GetNormalizedTree(func));
+  hashVal = hash(treeString);
+  _.set(func, HASH_KEY, hashVal);
+  return hashVal;
 }

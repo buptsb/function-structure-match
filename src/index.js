@@ -1,6 +1,6 @@
 import { isUserDefinedFunction } from "./utils";
 import { Parse } from "./parser";
-import { FunctionStructureHash } from "./function_hash";
+import { FunctionStructureHash, GetNormalizedTree } from "./function_hash";
 
 import { DeepDiff } from "deep-diff";
 import _ from "lodash";
@@ -46,5 +46,16 @@ export function Match(base, target, debug = false) {
   if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
     return false;
   }
-  return FunctionStructureHash(base) == FunctionStructureHash(target);
+  if (base === target) {
+    return true;
+  }
+  let result = FunctionStructureHash(base) == FunctionStructureHash(target);
+  if (debug && !result) {
+    let treeBase = GetNormalizedTree(base),
+      treeTarget = GetNormalizedTree(target);
+    console.log(treeBase);
+    console.log(treeTarget);
+    console.log(DeepDiff(treeBase, treeTarget));
+  }
+  return result;
 }
