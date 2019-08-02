@@ -10,14 +10,15 @@ function iter(o) {
   return _.reduce(
     o,
     (result, val, key) => {
+      if (_.includes(IGNORE_LIST, key)) {
+        return result;
+      }
       // if (_.isPlainObject(val) || _.isArray(val)) {
       if (_.isObjectLike(val)) {
         let tmp = iter(val);
         if (_.size(tmp) > 0) {
           result[key] = tmp;
         }
-        return result;
-      } else if (_.includes(IGNORE_LIST, key)) {
         return result;
       } else {
         result[key] = val;
