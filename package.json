@@ -9,6 +9,7 @@
     "test": "babel src --out-dir dist; node dist/test.js;"
   },
   "dependencies": {
+    "@emotion/hash": "^0.7.2",
     "deep-diff": "^1.0.2",
     "lodash": "^4.17.14",
     "shift-parser": "^7.0.0"

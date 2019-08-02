@@ -1,10 +1,11 @@
 import { isUserDefinedFunction } from "./utils";
 import { Parse } from "./parser";
+import { FunctionStructureHash } from "./function_hash";
 
 import { DeepDiff } from "deep-diff";
 import _ from "lodash";
 
-export function Match(base, target, debug = false) {
+export function Match_old(base, target, debug = false) {
   if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
     return false;
   }
@@ -39,4 +40,11 @@ export function Match(base, target, debug = false) {
     console.log(treeBase, treeTarget, diff);
   }
   return diff === undefined;
+}
+
+export function Match(base, target, debug = false) {
+  if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
+    return false;
+  }
+  return FunctionStructureHash(base) == FunctionStructureHash(target);
 }
