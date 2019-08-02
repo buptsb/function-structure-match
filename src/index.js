@@ -1,14 +1,8 @@
-import { parseScript } from "shift-parser";
 import { isUserDefinedFunction } from "./utils";
+import { Parse } from "./parser";
+
 import { DeepDiff } from "deep-diff";
 import _ from "lodash";
-
-function parse(fn) {
-  // in case of anonymous functions
-  let code = `var a = ${fn.toString()};`;
-  let tree = parseScript(code).statements[0].declaration.declarators[0].init;
-  return tree;
-}
 
 export function Match(base, target, debug = false) {
   if (!isUserDefinedFunction(base) || !isUserDefinedFunction(target)) {
@@ -24,8 +18,8 @@ export function Match(base, target, debug = false) {
     }
   }
 
-  let treeBase = parse(base),
-    treeTarget = parse(target);
+  let treeBase = Parse(base),
+    treeTarget = Parse(target);
   let diff = DeepDiff(treeBase, treeTarget, {
     normalize: (path, key, lhs, rhs) => {
       if (key == "name" || key == "property" || key == "pattern") {
